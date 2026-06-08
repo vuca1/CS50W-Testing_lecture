@@ -1,0 +1,28 @@
+import os
+import pathlib
+import unittest
+
+from selenium import webdriver
+
+def file_uri(filename):
+    return pathlib.Path(os.path.abspath(filename)).asuri()
+
+driver = webdriver.Chrome()
+
+class WebpageTests(unittest.TestCase):
+
+    def test_title(self):
+        driver.get(file_uri("counter.html"))
+        self.assertEqual(driver.title, "Counter 02")
+
+    def test_increase(self):
+        driver.get(file_uri("counter.html"))
+        increase = driver.find_element_by_id("increase")
+        increase.click()
+        self.assertEqual(driver.find_element_by_id("increase").text, "1")
+
+    def decrease(self):
+        driver.get(file_uri("counter.html"))
+        decrease = driver.find_element_by_id("decrease")
+        decrease.click()
+        self.assertEqual(driver.find_element_by_id("decrease").text, "-1")
